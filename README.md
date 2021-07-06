@@ -199,6 +199,21 @@ jGradient.setGradientLength(2, 2);
 
 The text colour, background colour, and border colour of elements can be changed to colours (and in some cases gradients) created using this library, using the `web` namespace.
 
+```js
+import {Color, DirectGradient, web, ColorSpace, Interpolation} from "colours.js";
+
+// colours in the text in the given element uniformly
+web.uniform(myElement, Color.MAROON);
+
+// colours in the background of the element uniformly
+web.uniform(myElement, Color.LIME, true);
+
+let rainbow = new DirectGradient(Color.RED, Color.RED, ColorSpace.HSV, Interpolation.linear, true);
+
+// colours in the text using a rainbow gradient
+web.gradient(myElement, "I really love rainbows!", rainbow);
+```
+
 ## colouring console messages
 
 Colours and gradients created using this library can be applied to console messages, using the `colorConsole` namespace.
@@ -216,7 +231,7 @@ msg = colorConsole.uniform(msg, Color.INDIGO, true);
 // logs with the background coloured indigo and with lime coloured text
 console.log(msg);
 
-let rainbow = new Gradient(Color.RED, Color.RED, ColorSpace.HSV, Interpolation.linear, true);
+let rainbow = new DirectGradient(Color.RED, Color.RED, ColorSpace.HSV, Interpolation.linear, true);
 
 msg = colorConsole.gradient("I really love rainbows!", rainbow);
 
