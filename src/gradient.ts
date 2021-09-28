@@ -171,11 +171,11 @@ export class JoinedGradient extends Object implements Gradient {
 
         for (const segment of segments) {
             this.colors.push(segment.color);
-            this.colorSpaces.push(segment.space || ColorSpace.RGB);
-            this.interpMethods.push(segment.interpolation || Interpolation.linear);
-            this.longRoutes.push(segment.longRoute || false);
-            this.cycles.push(segment.cycles || 0);
-            lengths.push(segment.length || 1);
+            this.colorSpaces.push(segment.space ?? ColorSpace.RGB);
+            this.interpMethods.push(segment.interpolation ?? Interpolation.linear);
+            this.longRoutes.push(segment.longRoute ?? false);
+            this.cycles.push(segment.cycles ?? 0);
+            lengths.push(segment.length ?? 1);
         }
 
         this.factor = mathExt.sum( ... lengths);

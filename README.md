@@ -12,7 +12,7 @@ Can be used to customise the colours of console messages, supporting custom colo
 
 # Installation
 
-npm i colours.js
+`npm i colours.js`
 
 # Usage
 
