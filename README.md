@@ -1,14 +1,6 @@
 # colours.js
 
-This library is designed to simplify dealing with colours on both front and back end JavaScript or TypeScript.
-
-## Front End
-
-Able to apply created colours to element styling, allowing for gradients and patterns by automatically generating `<span>` tags.
-
-## Back End
-
-Can be used to customise the colours of console messages, supporting custom colours, gradients, and other simple patterns.
+This library is designed to simplify dealing with colours on JavaScript or TypeScript, and prove ease of access applying them to console environments. It can be used to customise the colours of console messages, supporting custom colours, gradients, and other simple patterns.
 
 # Installation
 
@@ -195,59 +187,40 @@ let start = jGradient.getGradient(0);
 jGradient.setGradientLength(2, 2);
 ```
 
-## colouring HTML elements
-
-The text colour, background colour, and border colour of elements can be changed to colours (and in some cases gradients) created using this library, using the `web` namespace.
-
-```js
-import {Color, DirectGradient, web, ColorSpace, Interpolation} from "colours.js";
-
-// colours in the text in the given element uniformly
-web.uniform(myElement, Color.MAROON);
-
-// colours in the background of the element uniformly
-web.uniform(myElement, Color.LIME, true);
-
-let rainbow = new DirectGradient(Color.RED, Color.RED, ColorSpace.HSV, Interpolation.linear, true);
-
-// colours in the text using a rainbow gradient
-web.gradient(myElement, "I really love rainbows!", rainbow);
-```
-
 ## colouring console messages
 
-Colours and gradients created using this library can be applied to console messages, using the `colorConsole` namespace.
+Colours and gradients created using this library can be applied to console messages, using the `console` module.
 
 ```js
-const {Color, DirectGradient, colorConsole, ColorSpace, Interpolation} = require("colours.js");
+const {Color, DirectGradient, console, ColorSpace, Interpolation} = require("colours.js");
 
-let msg = colorConsole.uniform("Hello World!", Color.LIME);
+let msg = console.uniform("Hello World!", Color.LIME);
 
 // logs with the text coloured lime
 console.log(msg);
 
-msg = colorConsole.uniform(msg, Color.INDIGO, true);
+msg = console.uniform(msg, Color.INDIGO, true);
 
 // logs with the background coloured indigo and with lime coloured text
 console.log(msg);
 
 let rainbow = new DirectGradient(Color.RED, Color.RED, ColorSpace.HSV, Interpolation.linear, true);
 
-msg = colorConsole.gradient("I really love rainbows!", rainbow);
+msg = console.gradient("I really love rainbows!", rainbow);
 
 // logs with the text coloured with a rainbow gradient
 console.log(msg);
 ```
 
-Both direct and joined gradients can be used in the `colorConsole.gradient()` function.
+Both direct and joined gradients can be used in the `console.gradient()` function.
 
 You can also cycle between colors, or between gradients, using the cyclic versions of these functions:
 
 ```js
-msg = colorConsole.cyclicUniform("This has a simple pattern!", 3, false, Color.RED, Color.GREEN, Color.BLUE);
+msg = console.cyclicUniform("This has a simple pattern!", 3, false, Color.RED, Color.GREEN, Color.BLUE);
 console.log(msg);
 
-msg = colorConsole.cyclicGradient("This makes use of multiple different gradients next to each other!", 10, true, firstGradient, secondGradient, thirdGradient);
+msg = console.cyclicGradient("This makes use of multiple different gradients next to each other!", 10, true, firstGradient, secondGradient, thirdGradient);
 console.log(msg);
 ```
 
