@@ -1,8 +1,12 @@
 {
   "name": "colours.js",
-  "version": "3.0.0",
+  "version": "3.0.2",
   "description": "thorough colour system",
   "main": "dst/index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node ."
+  },
   "types": "dst",
   "repository": {
     "type": "git",
