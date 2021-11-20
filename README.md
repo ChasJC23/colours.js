@@ -192,21 +192,21 @@ jGradient.setGradientLength(2, 2);
 Colours and gradients created using this library can be applied to console messages, using the `console` module.
 
 ```js
-const {Color, DirectGradient, console, ColorSpace, Interpolation} = require("colours.js");
+const {Color, DirectGradient, colorConsole, ColorSpace, Interpolation} = require("colours.js");
 
-let msg = console.uniform("Hello World!", Color.LIME);
+let msg = colorConsole.uniform("Hello World!", Color.LIME);
 
 // logs with the text coloured lime
 console.log(msg);
 
-msg = console.uniform(msg, Color.INDIGO, true);
+msg = colorConsole.uniform(msg, Color.INDIGO, true);
 
 // logs with the background coloured indigo and with lime coloured text
 console.log(msg);
 
 let rainbow = new DirectGradient(Color.RED, Color.RED, ColorSpace.HSV, Interpolation.linear, true);
 
-msg = console.gradient("I really love rainbows!", rainbow);
+msg = colorConsole.gradient("I really love rainbows!", rainbow);
 
 // logs with the text coloured with a rainbow gradient
 console.log(msg);
@@ -217,10 +217,10 @@ Both direct and joined gradients can be used in the `console.gradient()` functio
 You can also cycle between colors, or between gradients, using the cyclic versions of these functions:
 
 ```js
-msg = console.cyclicUniform("This has a simple pattern!", 3, false, Color.RED, Color.GREEN, Color.BLUE);
+msg = colorConsole.cyclicUniform("This has a simple pattern!", 3, false, Color.RED, Color.GREEN, Color.BLUE);
 console.log(msg);
 
-msg = console.cyclicGradient("This makes use of multiple different gradients next to each other!", 10, true, firstGradient, secondGradient, thirdGradient);
+msg = colorConsole.cyclicGradient("This makes use of multiple different gradients next to each other!", 10, true, firstGradient, secondGradient, thirdGradient);
 console.log(msg);
 ```
 
