@@ -103,8 +103,8 @@ myGradient.space = ColorSpace.HSL;
 The interpolation method used for the gradient can also be decided using the following options:
 
 - `Interpolation.linear` linear interpolation
-- `Interpolation.quadratic_inc` quadratic interpolation with start derivative of 0
-- `Interpolation.quadratic_dec` quadratic interpolation with end derivative of 0
+- `Interpolation.inc_quadratic` quadratic interpolation with start derivative of 0
+- `Interpolation.dec_quadratic` quadratic interpolation with end derivative of 0
 - `Interpolation.cubic` cubic interpolation
 
 ```js
@@ -159,7 +159,7 @@ let myGradient = new JoinedGradient(Color.BLACK,
     {
         color: Color.DARKGREEN,
         length: 2,
-        interpolation: Interpolation.quadratic_dec
+        interpolation: Interpolation.dec_quadratic
     },
     {
         color: Color.PINK,
