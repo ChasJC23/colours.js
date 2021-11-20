@@ -187,7 +187,7 @@ let start = jGradient.getGradient(0);
 jGradient.setGradientLength(2, 2);
 ```
 
-## colouring console messages
+## Colouring console messages
 
 Colours and gradients created using this library can be applied to console messages, using the `console` module.
 
@@ -225,3 +225,54 @@ console.log(msg);
 ```
 
 For which you need to specify the length of all segments, whether to colour in the foreground or background, and the list of colours or gradients you wish to use in the sequence.
+
+# Examples
+Here are some examples of functions writen in typescript showing what you can do with the library.
+
+```typescript
+import { Color, ColorSpace, DirectGradient, JoinedGradient, colorConsole, Interpolation } from "colours.js";
+
+
+export function fire(message: string, isBackground: boolean = false, inverted: boolean = false) {
+    const fire = new JoinedGradient(inverted ? Color.YELLOW : Color.RED,
+        {
+            color: Color.ORANGE,
+            interpolation: inverted ? Interpolation.dec_quadratic : Interpolation.inc_quadratic,
+            length: inverted ? 1 : 2
+        },
+        {
+            color: inverted ? Color.RED : Color.YELLOW,
+            space: ColorSpace.HSV
+        }
+    );
+
+    return isBackground
+        ? colorConsole.gradient(colorConsole.uniform(message, Color.BLACK), fire, true)
+        : colorConsole.gradient(message, fire);
+}
+
+export function ice(message: string, isBackground: boolean = false, inverted: boolean = false) {
+    const ice = new DirectGradient(
+        inverted ? Color.SILVER : Color.fromHex("#088fff"),
+        inverted ? Color.fromHex("#088fff") : Color.SILVER,
+        ColorSpace.RGB,
+        inverted ? Interpolation.dec_quadratic : Interpolation.inc_quadratic
+    );
+
+    return isBackground
+        ? colorConsole.gradient(colorConsole.uniform(message, Color.BLACK), ice, true)
+        : colorConsole.gradient(message, ice);
+}
+export function rainbow(message: string, isBackground: boolean = false) {
+    const rainbow = new DirectGradient(Color.RED, Color.RED, ColorSpace.HSV, Interpolation.linear, true);
+
+    return isBackground
+        ? colorConsole.gradient(colorConsole.uniform(message, Color.BLACK), rainbow, true)
+        : colorConsole.gradient(message, rainbow);
+}
+export function zebra(message: string, isBackground: boolean = false) {
+    return isBackground
+        ? colorConsole.cyclicUniform(colorConsole.cyclicUniform(message, 1, true, Color.WHITE, Color.BLACK), 1, false, Color.BLACK, Color.WHITE)
+        : colorConsole.cyclicUniform(message, 1, false, Color.WHITE, Color.BLACK);
+}
+```

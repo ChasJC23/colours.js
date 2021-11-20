@@ -15,7 +15,7 @@ export function colorFGToken(color: Color) {
 export const resetToken = "\x1b[0m";
 
 /** calculates the number of characters within the given string that may be colored */
-function getColorableCount(text: string) : number {
+function getColorableCount(text: string): number {
 
     let colorableCount = 0;
 
@@ -31,13 +31,13 @@ function getColorableCount(text: string) : number {
 }
 
 /** color a given string of text a given color */
-export function uniform(text: string, color: Color, isBg = false) : string {
+export function uniform(text: string, color: Color, isBg = false): string {
     text = text.replace(resetToken, "");
     return (isBg ? colorBGToken(color) : colorFGToken(color)) + text + resetToken;
 }
 
 /** color a given string a given sequence of colors in a cyclical order */
-export function cyclicUniform(text: string, segmentLength: number, isBg = false, ... colors: Color[]) : string {
+export function cyclicUniform(text: string, segmentLength: number, isBg = false, ...colors: Color[]): string {
 
     text = text.replace(resetToken, "");
     let result = "";
@@ -65,7 +65,7 @@ export function cyclicUniform(text: string, segmentLength: number, isBg = false,
 }
 
 /** color a given string according to a given gradient */
-export function gradient(text: string, gradient: Gradient, isBg = false) : string {
+export function gradient(text: string, gradient: Gradient, isBg = false): string {
 
     text = text.replace(resetToken, "");
 
@@ -100,8 +100,8 @@ export function gradient(text: string, gradient: Gradient, isBg = false) : strin
 }
 
 /** color a given string a given sequence of gradients in a cyclical order */
-export function cyclicGradient(text: string, segmentLength: number, isBg = false, ... gradients: Gradient[]) {
-    
+export function cyclicGradient(text: string, segmentLength: number, isBg = false, ...gradients: Gradient[]) {
+
     text = text.replace(resetToken, "");
 
     let result = "";
@@ -126,7 +126,7 @@ export function cyclicGradient(text: string, segmentLength: number, isBg = false
         let t = prop % 1;
 
         result += getToken(gradients[index].getAt(t)) + text[i];
-        
+
         c++;
     }
 
