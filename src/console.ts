@@ -1,53 +1,53 @@
-import { Color } from "./color";
+import { Colour } from "./colour";
 import { Gradient } from "./gradient";
 
-/** generates the token used in a console message to color the background */
-export function colorBGToken(color: Color) {
-    return `\u001B[48;2;${color.r_8b};${color.g_8b};${color.b_8b}m`;
+/** generates the token used in a console message to colour the background */
+export function colourBGToken(colour: Colour) {
+    return `\u001B[48;2;${colour.r_8b};${colour.g_8b};${colour.b_8b}m`;
 }
 
-/** generates the token used in a console message to color the message text */
-export function colorFGToken(color: Color) {
-    return `\u001B[38;2;${color.r_8b};${color.g_8b};${color.b_8b}m`;
+/** generates the token used in a console message to colour the message text */
+export function colourFGToken(colour: Colour) {
+    return `\u001B[38;2;${colour.r_8b};${colour.g_8b};${colour.b_8b}m`;
 }
 
-/** constant for resetting the console color */
+/** constant for resetting the console colour */
 export const resetToken = "\x1b[0m";
 
-/** calculates the number of characters within the given string that may be colored */
-function getColorableCount(text: string) : number {
+/** calculates the number of characters within the given string that may be coloured */
+function getColourableCount(text: string) : number {
 
-    let colorableCount = 0;
+    let colourableCount = 0;
 
     for (let i = 0; i < text.length; i++) {
         if (text[i] == '\u001B') {
             do { i++; } while (text[i] != 'm');
             i++;
         }
-        colorableCount++;
+        colourableCount++;
     }
 
-    return colorableCount;
+    return colourableCount;
 }
 
-/** color a given string of text a given color */
-export function uniform(text: string, color: Color, isBg = false) : string {
+/** colour a given string of text a given colour */
+export function uniform(text: string, colour: Colour, isBg = false) : string {
     text = text.replace(resetToken, "");
-    return (isBg ? colorBGToken(color) : colorFGToken(color)) + text + resetToken;
+    return (isBg ? colourBGToken(colour) : colourFGToken(colour)) + text + resetToken;
 }
 
-/** color a given string a given sequence of colors in a cyclical order */
-export function cyclicUniform(text: string, segmentLength: number, isBg = false, ... colors: Color[]) : string {
+/** colour a given string a given sequence of colours in a cyclical order */
+export function cyclicUniform(text: string, segmentLength: number, isBg = false, ... colours: Colour[]) : string {
 
     text = text.replace(resetToken, "");
     let result = "";
     let c = 0;
 
-    let getToken = isBg ? colorBGToken : colorFGToken;
+    let getToken = isBg ? colourBGToken : colourFGToken;
 
     for (let i = 0; i < text.length; i++) {
 
-        // skip characters used for recoloring
+        // skip characters used for recolouring
         if (text[i] == '\u001B') {
             do {
                 result += text[i];
@@ -57,24 +57,24 @@ export function cyclicUniform(text: string, segmentLength: number, isBg = false,
             i++;
         }
 
-        result += getToken(colors[Math.floor(c / segmentLength) % colors.length]) + text[i];
+        result += getToken(colours[Math.floor(c / segmentLength) % colours.length]) + text[i];
 
         c++;
     }
     return result + resetToken;
 }
 
-/** color a given string according to a given gradient */
+/** colour a given string according to a given gradient */
 export function gradient(text: string, gradient: Gradient, isBg = false) : string {
 
     text = text.replace(resetToken, "");
 
-    let colorableCount = getColorableCount(text);
+    let colourableCount = getColourableCount(text);
 
     let result = "";
     let t = 0;
 
-    // we walk through the message, skipping any already existing color modifiers
+    // we walk through the message, skipping any already existing colour modifiers
     for (let i = 0; i < text.length; i++) {
 
         if (text[i] == '\u001B') {
@@ -86,11 +86,11 @@ export function gradient(text: string, gradient: Gradient, isBg = false) : strin
             i++;
         }
 
-        // generate the color using the functions we got in the arguments
-        const color = gradient.getAt(t / colorableCount);
+        // generate the colour using the functions we got in the arguments
+        const colour = gradient.getAt(t / colourableCount);
 
-        // add the current character colored with the color we created earlier
-        result += isBg ? colorBGToken(color) : colorFGToken(color);
+        // add the current character coloured with the colour we created earlier
+        result += isBg ? colourBGToken(colour) : colourFGToken(colour);
         result += text[i];
 
         t++;
@@ -99,7 +99,7 @@ export function gradient(text: string, gradient: Gradient, isBg = false) : strin
     return result + resetToken;
 }
 
-/** color a given string a given sequence of gradients in a cyclical order */
+/** colour a given string a given sequence of gradients in a cyclical order */
 export function cyclicGradient(text: string, segmentLength: number, isBg = false, ... gradients: Gradient[]) {
     
     text = text.replace(resetToken, "");
@@ -107,11 +107,11 @@ export function cyclicGradient(text: string, segmentLength: number, isBg = false
     let result = "";
     let c = 0;
 
-    let getToken = isBg ? colorBGToken : colorFGToken;
+    let getToken = isBg ? colourBGToken : colourFGToken;
 
     for (let i = 0; i < text.length; i++) {
 
-        // skip characters used for recoloring
+        // skip characters used for recolouring
         if (text[i] == '\u001B') {
             do {
                 result += text[i];
