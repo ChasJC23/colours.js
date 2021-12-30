@@ -51,12 +51,12 @@ export class Colour extends Object {
         return [this.hue, this.saturation_I, this.intensity];
     }
 
-    public override toString() : string {
+    public override toString(): string {
         return `Colour(r: ${this.red}, g: ${this.green}, b: ${this.blue})`;
     }
 
     /** the red component of this colour in RGB format */
-    public get red() : number {
+    public get red(): number {
         return this._r;
     }
 
@@ -65,7 +65,7 @@ export class Colour extends Object {
     }
 
     /** the green component of this colour in RGB format */
-    public get green() : number {
+    public get green(): number {
         return this._g;
     }
 
@@ -74,7 +74,7 @@ export class Colour extends Object {
     }
 
     /** the blue component of this colour in RGB format */
-    public get blue() : number {
+    public get blue(): number {
         return this._b;
     }
 
@@ -83,7 +83,7 @@ export class Colour extends Object {
     }
 
     /** the alpha channel of this colour */
-    public get alpha() : number {
+    public get alpha(): number {
         return this._a;
     }
 
@@ -91,13 +91,13 @@ export class Colour extends Object {
         this._a = Math.min(Math.max(a, 0), 1);
     }
 
-    public get r_8b() : number { return Math.round(this._r * 0xFF); }
-    public get g_8b() : number { return Math.round(this._g * 0xFF); }
-    public get b_8b() : number { return Math.round(this._b * 0xFF); }
-    public get a_8b() : number { return Math.round(this._a * 0xFF); }
+    public get r_8b(): number { return Math.round(this._r * 0xFF); }
+    public get g_8b(): number { return Math.round(this._g * 0xFF); }
+    public get b_8b(): number { return Math.round(this._b * 0xFF); }
+    public get a_8b(): number { return Math.round(this._a * 0xFF); }
 
     /** the chroma of this colour */
-    public get chroma() : number {
+    public get chroma(): number {
         return Math.max(this._r, this._g, this._b) - Math.min(this._r, this._g, this._b);
     }
     public set chroma(c: number) {
@@ -108,9 +108,9 @@ export class Colour extends Object {
         this._g = (this._g - i) * c / oc + i;
         this._b = (this._b - i) * c / oc + i;
     }
-    
+
     /** the hue of this colour */
-    public get hue() : number {
+    public get hue(): number {
         if (this.chroma == 0) return 0;
         let hprime: number;
         switch (Math.max(this._r, this._g, this._b)) {
@@ -137,7 +137,7 @@ export class Colour extends Object {
     }
 
     /** the brightness of this colour in HSI format */
-    public get intensity() : number {
+    public get intensity(): number {
         return avg(this._r, this._g, this._b);
     }
     public set intensity(i: number) {
@@ -148,7 +148,7 @@ export class Colour extends Object {
     }
 
     /** the brightness of this colour in HSV format */
-    public get value() : number {
+    public get value(): number {
         return Math.max(this._r, this._g, this._b);
     }
     public set value(v: number) {
@@ -159,7 +159,7 @@ export class Colour extends Object {
     }
     
     /** the brightness of this colour in HSL format */
-    public get lightness() : number {
+    public get lightness(): number {
         return mid(this._r, this._g, this._b);
     }
     public set lightness(l: number) {
@@ -170,7 +170,7 @@ export class Colour extends Object {
     }
 
     /** the saturation of this colour in HSV format */
-    public get saturation_V() : number {
+    public get saturation_V(): number {
         return this.value == 0 ? 0 : this.chroma / this.value;
     }
     public set saturation_V(s: number) {
@@ -181,7 +181,7 @@ export class Colour extends Object {
     }
 
     /** the saturation of this colour in HSL format */
-    public get saturation_L() : number {
+    public get saturation_L(): number {
         return this.lightness % 1 == 0 ? 0 : this.chroma / (1 - Math.abs(2 * this.lightness - 1));
     }
     public set saturation_L(s: number) {
@@ -192,7 +192,7 @@ export class Colour extends Object {
     }
 
     /** the saturation of this colour in HSI format */
-    public get saturation_I() : number {
+    public get saturation_I(): number {
         return this.intensity == 0 ? 0 : 1 - Math.min(this._r, this._g, this._b) / this.intensity;
     }
     public set saturation_I(s: number) {
@@ -417,7 +417,7 @@ export class Colour extends Object {
     }
 
     /** create a colour from HSV format */
-    public static fromHSV(hue: number, saturation: number, value: number, alpha = 1) : Colour {
+    public static fromHSV(hue: number, saturation: number, value: number, alpha = 1): Colour {
 
         const chroma = value * saturation;
         const scaledHue = hue * 6;
@@ -435,7 +435,7 @@ export class Colour extends Object {
     }
 
     /** create a colour from HSL format */
-    public static fromHSL(hue: number, saturation: number, lightness: number, alpha = 1) : Colour {
+    public static fromHSL(hue: number, saturation: number, lightness: number, alpha = 1): Colour {
 
         const chroma = (1 - Math.abs(2 * lightness - 1)) * saturation;
         const scaledHue = hue * 6;
@@ -453,7 +453,7 @@ export class Colour extends Object {
     }
 
     /** create a colour from HSI format */
-    public static fromHSI(hue: number, saturation: number, intensity: number, alpha = 1) : Colour {
+    public static fromHSI(hue: number, saturation: number, intensity: number, alpha = 1): Colour {
 
         const scaledHue = hue * 6;
     
