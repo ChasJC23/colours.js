@@ -1,3 +1,4 @@
+import { Color } from ".";
 import { Colour, ColourSpace } from "./colour";
 import * as mathExt from "./mathExt";
 
@@ -170,7 +171,9 @@ export class JoinedGradient extends Object implements Gradient {
         let lengths = [];
 
         for (const segment of segments) {
-            this.colours.push(segment.colour);
+            if (segment.colour) this.colours.push(segment.colour);
+            else if (segment.color) this.colours.push(segment.color);
+            else throw new Error("A colour must be specified in all segments.");
             this.colourSpaces.push(segment.space ?? ColourSpace.RGB);
             this.interpMethods.push(segment.interpolation ?? Interpolation.linear);
             this.longRoutes.push(segment.longRoute ?? false);
@@ -228,7 +231,8 @@ export class JoinedGradient extends Object implements Gradient {
 
 /** used for segmented gradients */
 export interface GradientSegment {
-    colour: Colour;
+    colour?: Colour;
+    color?: Color;
     length?: number;
     space?: ColourSpace;
     interpolation?: Interpolation;
