@@ -8,12 +8,12 @@ export class Colour extends Object {
     private _a: number;
 
     /** class representing a digital presentable colour */
-    public constructor(r: number, g: number, b: number, a: number = 1) {
+    public constructor(r: number | bigint, g: number | bigint, b: number | bigint, a: number | bigint = 1) {
         super();
-        this._r = Math.min(Math.max(r, 0), 1);
-        this._g = Math.min(Math.max(g, 0), 1);
-        this._b = Math.min(Math.max(b, 0), 1);
-        this._a = Math.min(Math.max(a, 0), 1);
+        this._r = typeof r == "number" ? Math.min(Math.max(r, 0), 1) : Number(r) / 255;
+        this._g = typeof g == "number" ? Math.min(Math.max(g, 0), 1) : Number(g) / 255;
+        this._b = typeof b == "number" ? Math.min(Math.max(b, 0), 1) : Number(b) / 255;
+        this._a = typeof a == "number" ? Math.min(Math.max(a, 0), 1) : Number(a) / 255;
     }
 
     /** export this colour into RGB format */
@@ -91,10 +91,10 @@ export class Colour extends Object {
         this._a = Math.min(Math.max(a, 0), 1);
     }
 
-    public get r_8b() : number { return Math.floor(this._r * 0xFF); }
-    public get g_8b() : number { return Math.floor(this._g * 0xFF); }
-    public get b_8b() : number { return Math.floor(this._b * 0xFF); }
-    public get a_8b() : number { return Math.floor(this._a * 0xFF); }
+    public get r_8b() : number { return Math.round(this._r * 0xFF); }
+    public get g_8b() : number { return Math.round(this._g * 0xFF); }
+    public get b_8b() : number { return Math.round(this._b * 0xFF); }
+    public get a_8b() : number { return Math.round(this._a * 0xFF); }
 
     /** the chroma of this colour */
     public get chroma() : number {
@@ -471,6 +471,16 @@ export class Colour extends Object {
         const m = intensity * (1 - saturation);
     
         return Colour.fromCXM(hueRegion, chroma, X, m, alpha);
+    }
+
+    /** create a colour from 24-bit RGB format */
+    public static from24BitRGB(r: number, g: number, b: number): Colour {
+        return this.from32BitRGBA(r, g, b);
+    }
+
+    /** create a colour from 32-bit RGBA format */
+    public static from32BitRGBA(r: number, g: number, b: number, a?: number): Colour {
+        return new Colour(r / 0xFF, g / 0xFF, b / 0xFF, a ? a / 0xFF : 1);
     }
 
     private static fromCXM(hueRegion: number, chroma: number, X: number, m: number, alpha: number) {
