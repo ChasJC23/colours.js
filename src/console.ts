@@ -15,7 +15,7 @@ export function colourFGToken(colour: Colour) {
 export const resetToken = "\x1b[0m";
 
 /** calculates the number of characters within the given string that may be coloured */
-function getColourableCount(text: string) : number {
+function getColourableCount(text: string): number {
 
     let colourableCount = 0;
 
@@ -31,13 +31,13 @@ function getColourableCount(text: string) : number {
 }
 
 /** colour a given string of text a given colour */
-export function uniform(text: string, colour: Colour, isBg = false) : string {
+export function uniform(text: string, colour: Colour, isBg = false): string {
     text = text.replace(resetToken, "");
     return (isBg ? colourBGToken(colour) : colourFGToken(colour)) + text + resetToken;
 }
 
 /** colour a given string a given sequence of colours in a cyclical order */
-export function cyclicUniform(text: string, segmentLength: number, isBg = false, ... colours: Colour[]) : string {
+export function cyclicUniform(text: string, segmentLength: number, isBg = false, ... colours: Colour[]): string {
 
     text = text.replace(resetToken, "");
     let result = "";
@@ -65,7 +65,7 @@ export function cyclicUniform(text: string, segmentLength: number, isBg = false,
 }
 
 /** colour a given string according to a given gradient */
-export function gradient(text: string, gradient: Gradient, isBg = false) : string {
+export function gradient(text: string, gradient: Gradient, isBg = false): string {
 
     text = text.replace(resetToken, "");
 
@@ -126,7 +126,7 @@ export function cyclicGradient(text: string, segmentLength: number, isBg = false
         let t = prop % 1;
 
         result += getToken(gradients[index].getAt(t)) + text[i];
-        
+
         c++;
     }
 

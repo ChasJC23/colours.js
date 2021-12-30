@@ -26,8 +26,8 @@ interface InterpFtns {
 
 /** any form of 1 dimensional gradient */
 export interface Gradient {
-    /** get the colour at a specfic point along the gradient, range [0, 1] */
-    getAt(t: number) : Colour
+    /** get the colour at a specific point along the gradient, range [0, 1] */
+    getAt(t: number): Colour
 }
 
 export class DirectGradient extends Object implements Gradient {
@@ -64,8 +64,8 @@ export class DirectGradient extends Object implements Gradient {
         this.colourSpace = space;
         this.interpMethod = interpolation;
 
-        let {fromColour, toColour} = getCastingFtns(space);
-        let {interpFtn, cyclicInterpFtn} = getInterpFtns(interpolation, longRoute);
+        let { fromColour, toColour } = getCastingFtns(space);
+        let { interpFtn, cyclicInterpFtn } = getInterpFtns(interpolation, longRoute);
 
         this._longRoute = longRoute;
 
@@ -83,7 +83,7 @@ export class DirectGradient extends Object implements Gradient {
         this.cycles = cycles;
     }
 
-    public getAt(t: number) : Colour {
+    public getAt(t: number): Colour {
         return this.toColour(
             0b100 & this.cyclicArg ? this.cyclicInterpFtn(t, this.s1, this.e1, this.cycles) : this.interpFtn(t, this.s1, this.e1),
             0b010 & this.cyclicArg ? this.cyclicInterpFtn(t, this.s2, this.e2, this.cycles) : this.interpFtn(t, this.s2, this.e2),
@@ -91,11 +91,11 @@ export class DirectGradient extends Object implements Gradient {
         );
     }
 
-    public get startColour() : Colour {
+    public get startColour(): Colour {
         return this.toColour(this.s1, this.s2, this.s3);
     }
     
-    public get endColour() : Colour {
+    public get endColour(): Colour {
         return this.toColour(this.e1, this.e2, this.e3);
     }
     
@@ -106,18 +106,18 @@ export class DirectGradient extends Object implements Gradient {
     public set endColour(c : Colour) {
         [this.e1, this.e2, this.e3] = this.fromColour(c);
     }
-    
-    public get interpolation() : Interpolation {
+
+    public get interpolation(): Interpolation {
         return this.interpMethod;
     }
     
-    public get space() : ColourSpace {
+    public get space(): ColourSpace {
         return this.colourSpace;
     }
-    
-    public set interpolation(interpolation : Interpolation) {
+
+    public set interpolation(interpolation: Interpolation) {
         this.interpMethod = interpolation;
-        let {interpFtn, cyclicInterpFtn} = getInterpFtns(interpolation, this._longRoute);
+        let { interpFtn, cyclicInterpFtn } = getInterpFtns(interpolation, this._longRoute);
         this.interpFtn = interpFtn;
         this.cyclicInterpFtn = cyclicInterpFtn;
     }
@@ -125,25 +125,25 @@ export class DirectGradient extends Object implements Gradient {
     public set space(space : ColourSpace) {
         this.colourSpace = space;
         let s = this.startColour, e = this.endColour;
-        let {fromColour, toColour} = getCastingFtns(space);
+        let { fromColour, toColour } = getCastingFtns(space);
         this.fromColour = fromColour;
         this.toColour = toColour;
         this.cyclicArg = getCyclicArg(space);
         this.startColour = s, this.endColour = e;
     }
-    
-    public get longRoute() : boolean {
+
+    public get longRoute(): boolean {
         return this._longRoute;
     }
 
     public set longRoute(longRoute: boolean) {
         this._longRoute = longRoute;
-        let {interpFtn, cyclicInterpFtn} = getInterpFtns(this.interpMethod, longRoute);
+        let { interpFtn, cyclicInterpFtn } = getInterpFtns(this.interpMethod, longRoute);
         this.interpFtn = interpFtn;
         this.cyclicInterpFtn = cyclicInterpFtn;
     }
 
-    public override toString() : string {
+    public override toString(): string {
         return `DirectGradient(${this.startColour}, ${this.endColour})`;
     }
 }
@@ -178,12 +178,12 @@ export class JoinedGradient extends Object implements Gradient {
             lengths.push(segment.length ?? 1);
         }
 
-        this.factor = mathExt.sum( ... lengths);
+        this.factor = mathExt.sum(...lengths);
 
         this.lengths = mathExt.normalize_1D(lengths);
     }
 
-    public getAt(t: number) : Colour {
+    public getAt(t: number): Colour {
         let lt = t;
         let i = 0;
         for (; lt > this.lengths[i]; i++) lt -= this.lengths[i];
@@ -191,9 +191,9 @@ export class JoinedGradient extends Object implements Gradient {
         let g = new DirectGradient(this.colours[i], this.colours[i+1], this.colourSpaces[i], this.interpMethods[i], this.longRoutes[i], this.cycles[i]);
         return g.getAt(lt);
     }
-    
+
     /** get the contained gradient at index i */
-    public getGradient(i: number) : DirectGradient {
+    public getGradient(i: number): DirectGradient {
         return new DirectGradient(this.colours[i], this.colours[i+1], this.colourSpaces[i], this.interpMethods[i], this.longRoutes[i], this.cycles[i]);
     }
 
@@ -208,7 +208,7 @@ export class JoinedGradient extends Object implements Gradient {
     }
 
     /** get the length of the contained gradient at index i */
-    public getGradientLength(i: number) : number {
+    public getGradientLength(i: number): number {
         return this.lengths[i] * this.factor;
     }
 
@@ -217,11 +217,11 @@ export class JoinedGradient extends Object implements Gradient {
         let originalLengths = this.lengths;
         originalLengths.forEach((v, i) => originalLengths[i] = v * this.factor);
         originalLengths[i] = length;
-        this.factor = mathExt.sum( ... originalLengths);
+        this.factor = mathExt.sum(...originalLengths);
         this.lengths = mathExt.normalize_1D(originalLengths);
     }
 
-    public override toString() : string {
+    public override toString(): string {
         return `JoinedGradient(${this.colours[0], this.colours[this.colours.length - 1]})`;
     }
 }
@@ -237,7 +237,7 @@ export interface GradientSegment {
 }
 
 /** collects the appropriate casting functions for a given colour space */
-function getCastingFtns(space: ColourSpace) : CastingFtns {
+function getCastingFtns(space: ColourSpace): CastingFtns {
 
     let fromColour: FromColFtn;
     let toColour: ToColFtn;
@@ -263,11 +263,11 @@ function getCastingFtns(space: ColourSpace) : CastingFtns {
             throw new Error("That colour space is not yet supported within in this function.");
     }
 
-    return {toColour, fromColour};
+    return { toColour, fromColour };
 }
 
 /** collects the appropriate interpolation functions for a given interpolation method */
-function getInterpFtns(interpolation: Interpolation, longRoute = false) : InterpFtns {
+function getInterpFtns(interpolation: Interpolation, longRoute = false): InterpFtns {
 
     let interpFtn: InterpFtn;
     let cyclicInterpFtn: CyclicInterpFtn;
@@ -293,10 +293,10 @@ function getInterpFtns(interpolation: Interpolation, longRoute = false) : Interp
             throw new Error("That interpolation method is not yet supported within this function");
     }
 
-    return {interpFtn, cyclicInterpFtn};
+    return { interpFtn, cyclicInterpFtn };
 }
 
 /** returns a number which indicates which components of a given colour system are cyclical */
-function getCyclicArg(space: ColourSpace) : number {
+function getCyclicArg(space: ColourSpace): number {
     return space == ColourSpace.RGB ? 0 : 0b100;
 }
