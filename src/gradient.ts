@@ -1,5 +1,4 @@
-import { Color } from ".";
-import { Colour, ColourSpace } from "./colour";
+import { Colour, Color, ColourSpace } from "./colour";
 import * as mathExt from "./mathExt";
 
 type InterpFtn = (t: number, a: number, b: number) => number;
