@@ -1,3 +1,3 @@
-export * from "./color";
+export * from "./colour";
 export * from "./gradient";
-export * as colorConsole from "./console";
+export * as colourConsole from "./console";
