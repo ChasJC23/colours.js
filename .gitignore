@@ -2,3 +2,5 @@ dst/
 .vscode/
 .npmignore
 tsconfig.json
+test/
+node_modules

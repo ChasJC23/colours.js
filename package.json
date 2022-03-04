@@ -14,6 +14,7 @@
   },
   "author": "ChasJC23",
   "license": "ISC",
-  "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "ts-node": "^10.6.0"
+  }
 }
